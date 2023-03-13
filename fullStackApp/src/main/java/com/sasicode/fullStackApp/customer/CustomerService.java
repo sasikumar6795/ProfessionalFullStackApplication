@@ -1,5 +1,6 @@
 package com.sasicode.fullStackApp.customer;
 
+import com.sasicode.fullStackApp.exception.DuplicateResourceException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +26,18 @@ public class CustomerService {
                 ));
     }
 
+    public void insertCustomer(CustomerRegisterRequest customerRegisterRequest) {
+
+        if(customerDao.existsPersonWithEmail(customerRegisterRequest.email())) {
+            throw new DuplicateResourceException("Email already exists");
+        }
+
+        Customer registerCustomer = Customer.builder()
+                .age(customerRegisterRequest.age())
+                .email(customerRegisterRequest.email())
+                .name(customerRegisterRequest.name())
+                .build();
+
+        customerDao.insertCustomer(registerCustomer);
+    }
 }

@@ -1,5 +1,7 @@
 package com.sasicode.fullStackApp;
 
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import com.sasicode.fullStackApp.customer.Customer;
 import com.sasicode.fullStackApp.customer.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -9,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 public class FullStackAppApplication {
@@ -24,18 +27,17 @@ public class FullStackAppApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(CustomerRepository customerRepository) {
 		return args -> {
-			Customer alex = new Customer(
-					"Alex",
-					"alex@gmail.com",
-					21
+			Faker faker = new Faker();
+			Name name = faker.name();
+			String firstName = name.firstName();
+			String lastName = name.lastName();
+			Random random = new Random();
+			Customer customer = new Customer(
+					firstName + " " + lastName,
+					firstName.toLowerCase() + "." + lastName.toLowerCase() + "@sasicode.com",
+					random.nextInt(16, 99)
 			);
-			Customer jamila = new Customer(
-					"Jamila",
-					"jamila@gmail.com",
-					19
-			);
-			List<Customer> customers = List.of(alex, jamila);
-			customerRepository.saveAll(customers);
+			customerRepository.save(customer);
 		};
 	}
 

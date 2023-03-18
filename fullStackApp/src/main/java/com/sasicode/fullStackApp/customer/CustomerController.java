@@ -39,4 +39,16 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PutMapping("{customerId}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerRegisterRequest customerRegisterRequest) {
+        Customer updateCustomer = customerService.updateCustomer(customerRegisterRequest, customerId);
+        return new ResponseEntity<>(updateCustomer,HttpStatus.OK);
+    }
+
+    @DeleteMapping("{customerId}")
+    public ResponseEntity updateCustomer(@PathVariable Integer customerId) {
+        customerService.deleteCustomer(customerId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

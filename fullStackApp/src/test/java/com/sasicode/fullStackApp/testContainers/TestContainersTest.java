@@ -1,5 +1,6 @@
-package com.sasicode.fullStackApp;
+package com.sasicode.fullStackApp.testContainers;
 
+import com.sasicode.fullStackApp.testContainers.TestContainers;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -19,5 +20,4 @@ public class TestContainersTest extends TestContainers {
 
         //then
     }
-
 }

@@ -79,30 +79,50 @@ public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
     }
 
     @Test
-    void insertCustomer() {
+    void existsCustomerWithEmail() {
         //Given
+        String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
+        Customer customer = Customer.builder()
+                .name(FAKER.name().fullName())
+                .email(email)
+                .age(19)
+                .build();
+
+        underTest.insertCustomer(customer);
 
         //when
 
+        boolean actual = underTest.existsCustomerWithEmail(email);
+
         //then
+        assertThat(actual).isTrue();
     }
 
     @Test
-    void existsPersonWithEmail() {
+    void existsCustomerWithId() {
         //Given
+        String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
+        Customer customer = Customer.builder()
+                .name(FAKER.name().fullName())
+                .email(email)
+                .age(19)
+                .build();
+
+        underTest.insertCustomer(customer);
+
+        int id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .findFirst()
+                .map(Customer::getId)
+                .orElseThrow();
 
         //when
 
-        //then
-    }
-
-    @Test
-    void existsPersonWithId() {
-        //Given
-
-        //when
+        boolean actual = underTest.existsCustomerWithId(id);
 
         //then
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -117,10 +137,30 @@ public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
     @Test
     void deleteCustomerById() {
         //Given
+        String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
+        Customer customer = Customer.builder()
+                .name(FAKER.name().fullName())
+                .email(email)
+                .age(19)
+                .build();
+
+        underTest.insertCustomer(customer);
+
+        int id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .findFirst()
+                .map(Customer::getId)
+                .orElseThrow();
 
         //when
 
+        underTest.deleteCustomerById(id);
+
+
         //then
+        Optional<Customer> actual = underTest.selectCustomerById(id);
+        assertThat(actual).isNotPresent();
     }
 
     @AfterEach

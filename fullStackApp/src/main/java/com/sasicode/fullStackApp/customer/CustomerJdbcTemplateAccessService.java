@@ -45,7 +45,7 @@ public class CustomerJdbcTemplateAccessService implements CustomerDao{
     }
 
     @Override
-    public boolean existsPersonWithEmail(String email) {
+    public boolean existsCustomerWithEmail(String email) {
         var sql = """
                 SELECT COUNT(id) FROM customer where email = ?
                 """;
@@ -54,7 +54,7 @@ public class CustomerJdbcTemplateAccessService implements CustomerDao{
     }
 
     @Override
-    public boolean existsPersonWithId(Integer id) {
+    public boolean existsCustomerWithId(Integer id) {
         var sql = """
                 SELECT COUNT(id) FROM customer where id = ?
                 """;

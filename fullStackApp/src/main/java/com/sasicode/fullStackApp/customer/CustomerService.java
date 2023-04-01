@@ -29,7 +29,7 @@ public class CustomerService {
 
     public void insertCustomer(CustomerRegisterRequest customerRegisterRequest) {
 
-        if(customerDao.existsPersonWithEmail(customerRegisterRequest.email())) {
+        if(customerDao.existsCustomerWithEmail(customerRegisterRequest.email())) {
             throw new DuplicateResourceException("Email already exists");
         }
 

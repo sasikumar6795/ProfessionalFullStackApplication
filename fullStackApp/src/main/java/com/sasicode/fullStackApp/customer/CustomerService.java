@@ -2,7 +2,6 @@ package com.sasicode.fullStackApp.customer;
 
 import com.sasicode.fullStackApp.exception.DuplicateResourceException;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -78,6 +78,7 @@ public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
         );
     }
 
+
     @Test
     void existsCustomerWithEmail() {
         //Given

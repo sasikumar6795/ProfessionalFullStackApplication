@@ -61,10 +61,9 @@ public class CustomerService {
 
     public void deleteCustomer(Integer customerId) {
 
-        Customer deleteCustomer = customerDao.selectCustomerById(customerId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "customer with id [%s] not found".formatted(customerId)
-                ));
+        if(!(customerDao.existsCustomerWithId(customerId))) {
+            throw new IllegalArgumentException("customer with id [%s] not found".formatted(customerId));
+        }
         customerDao.deleteCustomerById(customerId);
     }
 }

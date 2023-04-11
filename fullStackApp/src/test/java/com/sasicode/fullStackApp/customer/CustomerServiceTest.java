@@ -131,7 +131,7 @@ class CustomerServiceTest {
     void updateCustomer() {
         //Given
         int id = 1;
-        String email = "sasi@gmail.com";
+        String email = "sasikumar@gmail.com";
         Customer customer = Customer.builder()
                 .id(1)
                 .age(17)

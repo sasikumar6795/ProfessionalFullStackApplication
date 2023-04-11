@@ -51,6 +51,9 @@ public class CustomerService {
                 ));
 
         updateCustomer.setName(customerRegisterRequest.name());
+        if(customerRegisterRequest.email() != null && customerDao.existsCustomerWithEmail(customerRegisterRequest.email())){
+            throw new DuplicateResourceException("Email already exists");
+        }
         updateCustomer.setEmail(customerRegisterRequest.email());
         updateCustomer.setAge(customerRegisterRequest.age());
 

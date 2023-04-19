@@ -31,12 +31,12 @@ public class CustomerDataJpaAccessService implements CustomerDao{
 
     @Override
     public boolean existsCustomerWithEmail(String email) {
-        return customerRepository.existsByEmail(email);
+        return customerRepository.existsCustomerByEmail(email);
     }
 
     @Override
     public boolean existsCustomerWithId(Integer id) {
-        return customerRepository.existsPersonWithId(id);
+        return customerRepository.existsCustomerById(id);
     }
 
     @Override

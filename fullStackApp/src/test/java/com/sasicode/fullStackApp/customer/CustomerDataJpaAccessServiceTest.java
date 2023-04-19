@@ -89,7 +89,7 @@ class CustomerDataJpaAccessServiceTest {
         underTest.existsCustomerWithEmail(email);
 
         //then
-        verify(customerRepository).existsByEmail(email);
+        verify(customerRepository).existsCustomerByEmail(email);
 
     }
 
@@ -102,7 +102,7 @@ class CustomerDataJpaAccessServiceTest {
         underTest.existsCustomerWithId(id);
 
         // Then
-        verify(customerRepository).existsPersonWithId(id);
+        verify(customerRepository).existsCustomerById(id);
     }
 
     @Test

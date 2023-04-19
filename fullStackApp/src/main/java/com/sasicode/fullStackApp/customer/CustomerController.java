@@ -40,8 +40,8 @@ public class CustomerController {
     }
 
     @PutMapping("{customerId}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerRegisterRequest customerRegisterRequest) {
-        Customer updateCustomer = customerService.updateCustomer(customerRegisterRequest, customerId);
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerUpdateRequest customerUpdateRequest) {
+        Customer updateCustomer = customerService.updateCustomer(customerUpdateRequest, customerId);
         return new ResponseEntity<>(updateCustomer,HttpStatus.OK);
     }
 

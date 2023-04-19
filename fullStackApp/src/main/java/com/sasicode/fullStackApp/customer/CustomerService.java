@@ -1,6 +1,7 @@
 package com.sasicode.fullStackApp.customer;
 
 import com.sasicode.fullStackApp.exception.DuplicateResourceException;
+import com.sasicode.fullStackApp.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class CustomerService {
 
     public Customer getCustomer(Integer id) {
         return customerDao.selectCustomerById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "customer with id [%s] not found".formatted(id)
                 ));
     }
@@ -41,8 +42,8 @@ public class CustomerService {
         customerDao.insertCustomer(registerCustomer);
     }
 
-    public Customer updateCustomer(CustomerRegisterRequest customerRegisterRequest, Integer customerId) {
-        if(customerRegisterRequest == null) {
+    public Customer updateCustomer(CustomerUpdateRequest customerUpdateRequest, Integer customerId) {
+        if(customerUpdateRequest == null) {
             throw new IllegalStateException("no values were provided to update the customer");
         }
         Customer updateCustomer = customerDao.selectCustomerById(customerId)
@@ -50,12 +51,20 @@ public class CustomerService {
                         "customer with id [%s] not found".formatted(customerId)
                 ));
 
-        updateCustomer.setName(customerRegisterRequest.name());
-        if(customerRegisterRequest.email() != null && customerDao.existsCustomerWithEmail(customerRegisterRequest.email())){
-            throw new DuplicateResourceException("Email already exists");
+        if(customerUpdateRequest.name() != null) {
+            updateCustomer.setName(customerUpdateRequest.name());
         }
-        updateCustomer.setEmail(customerRegisterRequest.email());
-        updateCustomer.setAge(customerRegisterRequest.age());
+
+
+        if(customerUpdateRequest.email() != null && customerDao.existsCustomerWithEmail(customerUpdateRequest.email())){
+            throw new DuplicateResourceException("Email already exists");
+        }else if(customerUpdateRequest.email() != null){
+            updateCustomer.setEmail(customerUpdateRequest.email());
+        }
+
+        if(customerUpdateRequest.age() != null) {
+            updateCustomer.setAge(customerUpdateRequest.age());
+        }
 
         customerDao.updateCustomer(updateCustomer);
 

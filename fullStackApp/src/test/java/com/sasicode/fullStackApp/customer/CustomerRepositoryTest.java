@@ -2,6 +2,7 @@ package com.sasicode.fullStackApp.customer;
 
 
 import com.sasicode.fullStackApp.h2Db.H2DbConfiguration;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.UUID;
 
 import static com.sasicode.fullStackApp.h2Db.H2DbConfiguration.FAKER;
 import static org.assertj.core.api.Assertions.assertThat;
-
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(H2DbConfiguration.class)
@@ -45,7 +45,7 @@ class CustomerRepositoryTest {
         underTest.save(customer);
 
         // When
-        var actual = underTest.existsByEmail(email);
+        var actual = underTest.existsCustomerByEmail(email);
 
         // Then
         assertThat(actual).isTrue();
@@ -57,7 +57,7 @@ class CustomerRepositoryTest {
         String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
 
         // When
-        var actual = underTest.existsByEmail(email);
+        var actual = underTest.existsCustomerByEmail(email);
 
         // Then
         assertThat(actual).isFalse();
@@ -75,7 +75,7 @@ class CustomerRepositoryTest {
 
         underTest.save(customer);
 
-        int id = underTest.findAll()
+        Integer id = underTest.findAll()
                 .stream()
                 .filter(c -> c.getEmail().equals(email))
                 .map(Customer::getId)
@@ -83,7 +83,7 @@ class CustomerRepositoryTest {
                 .orElseThrow();
 
         // When
-        var actual = underTest.existsPersonWithId(id);
+        boolean actual = underTest.existsCustomerById(id);
 
         // Then
         assertThat(actual).isTrue();
@@ -95,7 +95,7 @@ class CustomerRepositoryTest {
         int id = -1;
 
         // When
-        var actual = underTest.existsPersonWithId(id);
+        boolean actual = underTest.existsCustomerById(id);
 
         // Then
         assertThat(actual).isFalse();

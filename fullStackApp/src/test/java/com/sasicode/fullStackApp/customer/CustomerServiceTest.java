@@ -1,6 +1,7 @@
 package com.sasicode.fullStackApp.customer;
 
 import com.sasicode.fullStackApp.exception.DuplicateResourceException;
+import com.sasicode.fullStackApp.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,7 +76,7 @@ class CustomerServiceTest {
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.empty());
         //then
         assertThatThrownBy(() -> underTest.getCustomer(id))
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("customer with id [%s] not found".formatted(id));
     }
 
@@ -139,22 +140,22 @@ class CustomerServiceTest {
                 .name("sasi")
                 .build();
 
-        CustomerRegisterRequest customerRegisterRequest = CustomerRegisterRequest.builder()
+        CustomerUpdateRequest customerUpdateRequest = CustomerUpdateRequest.builder()
                 .email(email)
                 .age(19)
                 .name("sasi")
                 .build();
         //when
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
-        Customer actual = underTest.updateCustomer(customerRegisterRequest, id);
+        Customer actual = underTest.updateCustomer(customerUpdateRequest, id);
         //then
         ArgumentCaptor<Customer> customerArgumentCaptor = ArgumentCaptor.forClass(Customer.class);
         verify(customerDao).updateCustomer(customerArgumentCaptor.capture());
         Customer captureCustomer = customerArgumentCaptor.getValue();
         assertThat(captureCustomer.getId()).isEqualTo(id);
-        assertThat(captureCustomer.getEmail()).isEqualTo(customerRegisterRequest.email());
-        assertThat(captureCustomer.getAge()).isEqualTo(customerRegisterRequest.age());
-        assertThat(captureCustomer.getName()).isEqualTo(customerRegisterRequest.name());
+        assertThat(captureCustomer.getEmail()).isEqualTo(customerUpdateRequest.email());
+        assertThat(captureCustomer.getAge()).isEqualTo(customerUpdateRequest.age());
+        assertThat(captureCustomer.getName()).isEqualTo(customerUpdateRequest.name());
         assertThat(actual).isEqualTo(captureCustomer);
     }
 
@@ -162,9 +163,9 @@ class CustomerServiceTest {
     void shouldThrowExceptionWhenUpdateCustomerIsCalledWithoutCustomerRegistrationRequest() {
         //Given
         int id = 1;
-        CustomerRegisterRequest customerRegisterRequest = null;
+        CustomerUpdateRequest customerUpdateRequest = null;
         //when
-        assertThatThrownBy(() -> underTest.updateCustomer(customerRegisterRequest, id))
+        assertThatThrownBy(() -> underTest.updateCustomer(customerUpdateRequest, id))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("no values were provided to update the customer");
 
@@ -177,13 +178,13 @@ class CustomerServiceTest {
         //Given
         int customerId = -1;
         String email = "sasi@gmail.com";
-        CustomerRegisterRequest customerRegisterRequest = CustomerRegisterRequest.builder()
+        CustomerUpdateRequest customerUpdateRequest = CustomerUpdateRequest.builder()
                 .email(email)
                 .age(19)
                 .name("sasi")
                 .build();
         //when
-        assertThatThrownBy(() -> underTest.updateCustomer(customerRegisterRequest, customerId))
+        assertThatThrownBy(() -> underTest.updateCustomer(customerUpdateRequest, customerId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("customer with id [%s] not found".formatted(customerId));
 

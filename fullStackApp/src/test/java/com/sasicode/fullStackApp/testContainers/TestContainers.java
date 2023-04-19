@@ -2,8 +2,8 @@ package com.sasicode.fullStackApp.testContainers;
 
 import com.github.javafaker.Faker;
 import org.flywaydb.core.Flyway;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -15,7 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import javax.sql.DataSource;
 
 @Testcontainers
-@Ignore
+@Disabled
 public abstract class TestContainers {
 
     @Container

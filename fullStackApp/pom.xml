@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sasicode</groupId>
-	<artifactId>sasicode-fullstackProfessional-api</artifactId>
+	<artifactId>sasicode-fullstack-professional-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fullStackAppProfessional</name>
 	<description>A Full stack professional application</description>
@@ -168,6 +168,14 @@
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.3.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<from>
 						<image>eclipse-temurin:17</image>

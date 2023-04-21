@@ -12,7 +12,22 @@ services:
       - "5332:5432"
     networks:
       - postgres
+      - db
     restart: unless-stopped
+
+  sasicode-fullstack-professional-api:
+    container_name: sasicode-fullstack-professional-api
+    image: sasikumar6795/sasicode-fullstack-professional-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
+    ports:
+      - "8088:8080"
+    networks:
+      - db
+    restart: unless-stopped
+    depends_on:
+      - db
+
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -31,6 +46,8 @@ services:
       - db
 
 networks:
+  db:
+    driver: bridge
   postgres:
     driver: bridge
 

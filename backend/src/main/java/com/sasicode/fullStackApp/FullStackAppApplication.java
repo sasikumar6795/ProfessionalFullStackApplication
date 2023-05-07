@@ -17,10 +17,8 @@ import java.util.Random;
 public class FullStackAppApplication {
 
 	public static void main(String[] args) {
-
 		ConfigurableApplicationContext configurableApplicationContext =
 				SpringApplication.run(FullStackAppApplication.class, args);
-
 		//printBeans(configurableApplicationContext);
 	}
 

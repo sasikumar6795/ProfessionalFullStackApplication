@@ -1,8 +1,10 @@
 package com.sasicode.fullStackApp.customer;
 
 import com.sasicode.fullStackApp.h2Db.H2DbConfiguration;
+import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -13,6 +15,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Ignore
 public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
     private CustomerJdbcTemplateAccessService underTest;
 

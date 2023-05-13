@@ -20,7 +20,6 @@ public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
 
     @BeforeEach
     void setUp() {
-        underTest.deleteCustomer();
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
         populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
@@ -164,10 +163,10 @@ public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
         assertThat(actual).isNotPresent();
     }
 
-    @AfterEach
-    public void tearDown() {
-        getJdbcTemplate().execute("DROP TABLE customer");
-    }
+//    @AfterEach
+//    public void tearDown() {
+//        getJdbcTemplate().execute("DROP TABLE customer");
+//    }
 
 
 }

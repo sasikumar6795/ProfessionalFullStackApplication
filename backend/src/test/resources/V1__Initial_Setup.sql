@@ -4,3 +4,4 @@ CREATE TABLE IF NOT EXISTS customer (
     email TEXT NOT NULL,
     age INT NOT NULL
 );
+

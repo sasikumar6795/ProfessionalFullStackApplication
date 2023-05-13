@@ -90,6 +90,14 @@ public class CustomerJdbcTemplateAccessService implements CustomerDao{
     }
 
     @Override
+    public void deleteCustomer() {
+        var sql = """
+                DELETE FROM CUSTOMER
+                """;
+        jdbcTemplate.execute(sql);
+    }
+
+    @Override
     public void deleteCustomerById(Integer customerId) {
         var sql = """
                 DELETE from customer where id = ?

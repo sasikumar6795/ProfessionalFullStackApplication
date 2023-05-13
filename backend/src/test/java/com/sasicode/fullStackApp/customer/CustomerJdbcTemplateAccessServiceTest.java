@@ -1,6 +1,8 @@
 package com.sasicode.fullStackApp.customer;
 
 import com.sasicode.fullStackApp.h2Db.H2DbConfiguration;
+import com.sasicode.fullStackApp.testContainers.TestContainers;
+import com.sasicode.fullStackApp.testContainers.TestContainersTest;
 import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +18,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Ignore
-public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
+public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     private CustomerJdbcTemplateAccessService underTest;
 
     private final CustomerRowMapper customerRowMapper =  new CustomerRowMapper();

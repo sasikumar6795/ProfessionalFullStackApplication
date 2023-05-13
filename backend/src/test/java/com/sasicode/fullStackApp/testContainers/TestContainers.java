@@ -51,7 +51,7 @@ public abstract class TestContainers {
         );
     }
 
-    private static DataSource getDataSource() {
+    protected static DataSource getDataSource() {
         DataSourceBuilder<?> builder = DataSourceBuilder
                 .create()
                 .driverClassName(postgreSQLContainer.getDriverClassName())

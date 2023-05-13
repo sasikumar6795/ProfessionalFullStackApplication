@@ -25,10 +25,10 @@ public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
 
     @BeforeEach
     void setUp() {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
-        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
-        populator.execute(getDataSource());
+//        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+//        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
+//        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
+//        populator.execute(getDataSource());
         underTest = new CustomerJdbcTemplateAccessService(
                 getJdbcTemplate(), customerRowMapper
         );

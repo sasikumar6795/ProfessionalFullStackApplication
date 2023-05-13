@@ -166,10 +166,10 @@ public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
         assertThat(actual).isNotPresent();
     }
 
-//    @AfterEach
-//    public void tearDown() {
-//        getJdbcTemplate().execute("DROP TABLE customer");
-//    }
+    @AfterEach
+    public void tearDown() {
+        getJdbcTemplate().execute("DROP TABLE customer");
+    }
 
 
 }

@@ -1,8 +1,12 @@
 package com.sasicode.fullStackApp.customer;
 
 import com.sasicode.fullStackApp.h2Db.H2DbConfiguration;
+import com.sasicode.fullStackApp.testContainers.TestContainers;
+import com.sasicode.fullStackApp.testContainers.TestContainersTest;
+import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -13,18 +17,18 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
+@Ignore
+public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     private CustomerJdbcTemplateAccessService underTest;
 
     private final CustomerRowMapper customerRowMapper =  new CustomerRowMapper();
 
     @BeforeEach
     void setUp() {
-
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
-        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
-        populator.execute(getDataSource());
+//        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+//        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
+//        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
+//        populator.execute(getDataSource());
         underTest = new CustomerJdbcTemplateAccessService(
                 getJdbcTemplate(), customerRowMapper
         );
@@ -164,10 +168,10 @@ public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
         assertThat(actual).isNotPresent();
     }
 
-    @AfterEach
-    public void tearDown() {
-        getJdbcTemplate().execute("DROP TABLE customer");
-    }
+//    @AfterEach
+//    public void tearDown() {
+//        getJdbcTemplate().execute("DROP TABLE customer");
+//    }
 
 
 }

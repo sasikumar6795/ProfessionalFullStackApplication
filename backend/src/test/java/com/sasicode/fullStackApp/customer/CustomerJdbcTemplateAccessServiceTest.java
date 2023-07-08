@@ -18,18 +18,18 @@ import java.util.UUID;
 import static com.sasicode.fullStackApp.h2Db.H2DbConfiguration.FAKER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
+public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     private CustomerJdbcTemplateAccessService underTest;
 
     private final CustomerRowMapper customerRowMapper =  new CustomerRowMapper();
 
     @BeforeEach
     void setUp() {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
-        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
-        populator.addScript(new ClassPathResource("V3__Add_PasswordColumn_To_Customer_Table.sql"));
-        populator.execute(getDataSource());
+//        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+//        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
+//        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
+//        populator.addScript(new ClassPathResource("V3__Add_PasswordColumn_To_Customer_Table.sql"));
+//        populator.execute(getDataSource());
         underTest = new CustomerJdbcTemplateAccessService(
                 getJdbcTemplate(), customerRowMapper
         );

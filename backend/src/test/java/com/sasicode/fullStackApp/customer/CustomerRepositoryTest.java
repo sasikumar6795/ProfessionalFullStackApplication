@@ -1,8 +1,8 @@
 package com.sasicode.fullStackApp.customer;
 
 
+import com.sasicode.fullStackApp.TestConfig;
 import com.sasicode.fullStackApp.h2Db.H2DbConfiguration;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import static com.sasicode.fullStackApp.h2Db.H2DbConfiguration.FAKER;
 import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(H2DbConfiguration.class)
+@Import({H2DbConfiguration.class, TestConfig.class})
 class CustomerRepositoryTest {
 
     @Autowired
@@ -39,7 +39,7 @@ class CustomerRepositoryTest {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
+                "password", 20
         );
 
         underTest.save(customer);
@@ -70,7 +70,7 @@ class CustomerRepositoryTest {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
+                "password", 20
         );
 
         underTest.save(customer);

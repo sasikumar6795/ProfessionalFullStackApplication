@@ -1,23 +1,15 @@
 package com.sasicode.fullStackApp.customer;
 
-import com.sasicode.fullStackApp.h2Db.H2DbConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 
-import java.util.List;
 import java.util.UUID;
 
 import static com.sasicode.fullStackApp.h2Db.H2DbConfiguration.FAKER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 
@@ -67,11 +59,11 @@ class CustomerDataJpaAccessServiceTest {
     void insertCustomer() {
 
         String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
-        Customer customer = Customer.builder()
-                .name(FAKER.name().fullName())
-                .email(email)
-                .age(19)
-                .build();
+        Customer customer = new Customer();
+                customer.setName(FAKER.name().fullName());
+                customer.setEmail(email);
+                customer.setPassword("password");
+                customer.setAge(19);
 
         //when
         underTest.insertCustomer(customer);
@@ -121,7 +113,7 @@ class CustomerDataJpaAccessServiceTest {
     void updateCustomer() {
         // Given
         Customer customer = new Customer(
-                1, "sasi", "sasi@gmail.com", 2
+                1, "sasi", "sasi@gmail.com", "password", 2
         );
 
         // When

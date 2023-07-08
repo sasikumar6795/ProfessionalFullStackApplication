@@ -53,4 +53,9 @@ public class CustomerDataJpaAccessService implements CustomerDao{
     public void deleteCustomer() {
         customerRepository.deleteAll();
     }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        return customerRepository.findCustomerByEmail(email);
+    }
 }

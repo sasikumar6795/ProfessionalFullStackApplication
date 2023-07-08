@@ -66,11 +66,12 @@ public class CustomerIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        Customer expectedCustomer = Customer.builder()
-                .name(name)
-                .email(email)
-                .age(age)
-                .build();
+        Customer expectedCustomer = new Customer();
+        expectedCustomer.setName(name);
+        expectedCustomer.setEmail(email);
+        expectedCustomer.setAge(age);
+
+
 
         // make sure the customer is present
         assertThat(getAllCustomers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
@@ -167,7 +168,7 @@ public class CustomerIntegrationTest {
         int age = random.nextInt(1,100);
 
         CustomerRegisterRequest request = new CustomerRegisterRequest(
-                name, email, age
+                name, email, "password", age
         );
 
         // send a post request
@@ -228,7 +229,7 @@ public class CustomerIntegrationTest {
                 .getResponseBody();
 
         Customer expected = new Customer(
-                id, newName, email, age
+                id, newName, email, "password", age
         );
 
         assertThat(updatedCustomer).isEqualTo(expected);

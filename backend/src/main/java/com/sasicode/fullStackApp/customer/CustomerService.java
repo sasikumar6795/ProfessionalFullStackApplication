@@ -3,6 +3,7 @@ package com.sasicode.fullStackApp.customer;
 import com.sasicode.fullStackApp.exception.DuplicateResourceException;
 import com.sasicode.fullStackApp.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +13,11 @@ public class CustomerService {
 
     private final CustomerDao customerDao;
 
-    public CustomerService(@Qualifier("jpa") CustomerDao customerDao) {
+    private final PasswordEncoder passwordEncoder;
+
+    public CustomerService(@Qualifier("jpa") CustomerDao customerDao, PasswordEncoder passwordEncoder) {
         this.customerDao = customerDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Customer> getAllCustomers() {
@@ -33,11 +37,12 @@ public class CustomerService {
             throw new DuplicateResourceException("Email already exists");
         }
 
-        Customer registerCustomer = Customer.builder()
-                .age(customerRegisterRequest.age())
-                .email(customerRegisterRequest.email())
-                .name(customerRegisterRequest.name())
-                .build();
+        Customer registerCustomer = new Customer();
+        registerCustomer.setAge(customerRegisterRequest.age());
+        registerCustomer.setEmail(customerRegisterRequest.email());
+        registerCustomer.setPassword(passwordEncoder.encode(customerRegisterRequest.password()));
+        registerCustomer.setName(customerRegisterRequest.name());
+
 
         customerDao.insertCustomer(registerCustomer);
     }

@@ -9,8 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
@@ -23,7 +23,7 @@ public class FullStackAppApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(CustomerRepository customerRepository) {
+	CommandLineRunner commandLineRunner(PasswordEncoder passwordEncoder, CustomerRepository customerRepository) {
 		return args -> {
 			Faker faker = new Faker();
 			Name name = faker.name();
@@ -33,7 +33,7 @@ public class FullStackAppApplication {
 			Customer customer = new Customer(
 					firstName + " " + lastName,
 					firstName.toLowerCase() + "." + lastName.toLowerCase() + "@sasicode.com",
-					random.nextInt(16, 99)
+					passwordEncoder.encode("password"), random.nextInt(16, 99)
 			);
 			customerRepository.save(customer);
 		};

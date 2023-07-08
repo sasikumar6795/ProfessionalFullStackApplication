@@ -15,20 +15,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.sasicode.fullStackApp.h2Db.H2DbConfiguration.FAKER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Ignore
-public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
+public class CustomerJdbcTemplateAccessServiceTest extends H2DbConfiguration {
     private CustomerJdbcTemplateAccessService underTest;
 
     private final CustomerRowMapper customerRowMapper =  new CustomerRowMapper();
 
     @BeforeEach
     void setUp() {
-//        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-//        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
-//        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
-//        populator.execute(getDataSource());
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("V1__Initial_Setup.sql"));
+        populator.addScript(new ClassPathResource("V2__Add_Unique_Constraint_To_Customer_Table_Column_Email.sql"));
+        populator.addScript(new ClassPathResource("V3__Add_PasswordColumn_To_Customer_Table.sql"));
+        populator.execute(getDataSource());
         underTest = new CustomerJdbcTemplateAccessService(
                 getJdbcTemplate(), customerRowMapper
         );
@@ -37,11 +38,12 @@ public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     @Test
     void selectAllCustomers() {
         //Given
-        Customer customer = Customer.builder()
-                .name(FAKER.name().fullName())
-                .email(FAKER.internet().emailAddress() + "-" + UUID.randomUUID())
-                .age(19)
-                .build();
+        Customer customer = new Customer();
+        customer.setName(FAKER.name().fullName());
+        customer.setEmail(FAKER.internet().emailAddress() + "-" + UUID.randomUUID());
+        customer.setPassword("password");
+        customer.setAge(19);
+
 
         underTest.insertCustomer(customer);
 
@@ -56,11 +58,11 @@ public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     void selectCustomerById() {
         //Given
         String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
-        Customer customer = Customer.builder()
-                .name(FAKER.name().fullName())
-                .email(email)
-                .age(19)
-                .build();
+        Customer customer = new Customer();
+        customer.setName(FAKER.name().fullName());
+        customer.setEmail(email);
+        customer.setPassword("password");
+        customer.setAge(19);
 
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -87,11 +89,12 @@ public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     void existsCustomerWithEmail() {
         //Given
         String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
-        Customer customer = Customer.builder()
-                .name(FAKER.name().fullName())
-                .email(email)
-                .age(19)
-                .build();
+        Customer customer = new Customer();
+        customer.setName(FAKER.name().fullName());
+        customer.setEmail(email);
+        customer.setPassword("password");
+        customer.setAge(19);
+
 
         underTest.insertCustomer(customer);
 
@@ -107,11 +110,12 @@ public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     void existsCustomerWithId() {
         //Given
         String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
-        Customer customer = Customer.builder()
-                .name(FAKER.name().fullName())
-                .email(email)
-                .age(19)
-                .build();
+        Customer customer = new Customer();
+        customer.setName(FAKER.name().fullName());
+        customer.setEmail(email);
+        customer.setPassword("password");
+        customer.setAge(19);
+
 
         underTest.insertCustomer(customer);
 
@@ -143,11 +147,12 @@ public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
     void deleteCustomerById() {
         //Given
         String email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
-        Customer customer = Customer.builder()
-                .name(FAKER.name().fullName())
-                .email(email)
-                .age(19)
-                .build();
+        Customer customer = new Customer();
+        customer.setName(FAKER.name().fullName());
+        customer.setEmail(email);
+        customer.setPassword("password");
+        customer.setAge(19);
+
 
         underTest.insertCustomer(customer);
 
@@ -168,10 +173,10 @@ public class CustomerJdbcTemplateAccessServiceTest extends TestContainers {
         assertThat(actual).isNotPresent();
     }
 
-//    @AfterEach
-//    public void tearDown() {
-//        getJdbcTemplate().execute("DROP TABLE customer");
-//    }
+    @AfterEach
+    public void tearDown() {
+        getJdbcTemplate().execute("DROP TABLE customer");
+    }
 
 
 }

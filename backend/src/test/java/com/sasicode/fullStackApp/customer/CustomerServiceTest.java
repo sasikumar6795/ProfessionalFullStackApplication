@@ -9,6 +9,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -25,10 +26,13 @@ class CustomerServiceTest {
     @Mock
     private CustomerDao customerDao;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new CustomerService(customerDao);
+        underTest = new CustomerService(customerDao, passwordEncoder);
     }
 
     @AfterEach
@@ -52,12 +56,11 @@ class CustomerServiceTest {
         //Given
         int id = 1;
 
-        Customer customer = Customer.builder()
-                .id(1)
-                .age(17)
-                .email("sasi@gmail.com")
-                .name("sasi")
-                .build();
+        Customer customer = new Customer();
+                customer.setId(1);
+                customer.setAge(17);
+                customer.setEmail("sasi@gmail.com");
+                customer.setName("sasi");
 
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
         //when
@@ -89,11 +92,14 @@ class CustomerServiceTest {
                 .email(email)
                 .age(19)
                 .name("sasi")
+                .password("password")
                 .build();
 
 
         when(customerDao.existsCustomerWithEmail(email)).thenReturn(false);
         //when
+        String hashedPassword = "$$$$@@3@#@@32";
+        when(passwordEncoder.encode("password")).thenReturn(hashedPassword);
         underTest.insertCustomer(customerRegisterRequest);
 
         //then
@@ -104,7 +110,7 @@ class CustomerServiceTest {
         assertThat(captureCustomer.getEmail()).isEqualTo(customerRegisterRequest.email());
         assertThat(captureCustomer.getAge()).isEqualTo(customerRegisterRequest.age());
         assertThat(captureCustomer.getName()).isEqualTo(customerRegisterRequest.name());
-
+        assertThat(captureCustomer.getPassword()).isEqualTo(hashedPassword);
     }
 
 
@@ -133,12 +139,12 @@ class CustomerServiceTest {
         //Given
         int id = 1;
         String email = "sasikumar@gmail.com";
-        Customer customer = Customer.builder()
-                .id(1)
-                .age(17)
-                .email("sasi@gmail.com")
-                .name("sasi")
-                .build();
+        Customer customer = new Customer();
+        customer.setId(1);
+        customer.setAge(17);
+        customer.setEmail("sasi@gmail.com");
+        customer.setName("sasi");
+
 
         CustomerUpdateRequest customerUpdateRequest = CustomerUpdateRequest.builder()
                 .email(email)

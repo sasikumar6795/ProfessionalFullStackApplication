@@ -37,10 +37,10 @@ public class CustomerJdbcTemplateAccessService implements CustomerDao{
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer(name, email, age) 
-                VALUES(?, ?, ?)
+                INSERT INTO customer(name, email, password, age) 
+                VALUES(?, ?, ?, ?)
                 """;
-        int update = jdbcTemplate.update(sql, customer.getName(), customer.getEmail(), customer.getAge());
+        int update = jdbcTemplate.update(sql, customer.getName(), customer.getEmail(), customer.getPassword(), customer.getAge());
         log.info("jdbcTemplate insert query" + " " +update);
     }
 
@@ -95,6 +95,15 @@ public class CustomerJdbcTemplateAccessService implements CustomerDao{
                 DELETE FROM CUSTOMER
                 """;
         jdbcTemplate.execute(sql);
+    }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        var sql = """
+                SELECT id, name, email, password, age from customer as c where email = ? 
+                """;
+        Optional<Customer> customer = jdbcTemplate.query(sql, customerRowMapper, email).stream().findFirst();
+        return customer;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class CustomerDataJpaAccessService implements CustomerDao{
 
     @Override
     public Optional<Customer> selectCustomerById(Integer id) {
-        return customerRepository.findById(Long.valueOf(id));
+        return customerRepository.findById(id);
     }
 
     @Override

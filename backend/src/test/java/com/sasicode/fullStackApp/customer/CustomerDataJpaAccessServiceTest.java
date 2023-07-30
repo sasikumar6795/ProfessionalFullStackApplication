@@ -46,7 +46,7 @@ class CustomerDataJpaAccessServiceTest {
 
     @Test
     void selectCustomerById() {
-        long id = 1;
+        long id = 1L;
 
         //when
         underTest.selectCustomerById((int) id);

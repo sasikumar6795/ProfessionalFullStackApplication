@@ -1,3 +1,11 @@
+<p-sidebar 
+[(visible)]="sidebarVisible" 
+position="right" 
+styleClass="p-sidebar-lg"
+[transitionOptions]="'300ms cubic-bezier(0, 0, 0.2, 1)'"
+>
+<app-manage-customer></app-manage-customer>
+</p-sidebar>
 <div class="flex align-items-stretch" style="height: 99vh;">
   <div class="flex flex-column align-items-stretch border-right-1 col-2 border-grey-200">
     <app-menu-bar></app-menu-bar>
@@ -7,7 +15,15 @@
       <app-header-bar></app-header-bar>
     </div>
     <div class="main-container p-3">
-      create customer
+      <button
+      pButton
+      icon="pi pi-plus"
+      label="Create Customer"
+      class="p-button-success"
+      (click)="openSideBar()"
+      >
+
+      </button>
     </div>
     <div>
       customers

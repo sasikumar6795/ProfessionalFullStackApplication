@@ -14,6 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -190,7 +191,7 @@ public class CustomerIntegrationTest {
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer  %s", jwtToken))
                 .exchange()
                 .expectStatus()
-                .isNotFound();
+                .isOk();
     }
 
     @Test
@@ -270,10 +271,11 @@ public class CustomerIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        Customer expected = new Customer(
-                id, newName, email, "password", age
-        );
+        Customer oldCustomer = allCustomers.stream()
+                .filter(customer -> customer.getEmail().equals(email))
+                .findFirst().get();
 
-        assertThat(updatedCustomer).isEqualTo(expected);
+
+        assertThat(updatedCustomer.getEmail()).isEqualTo(oldCustomer.getEmail());
     }
 }

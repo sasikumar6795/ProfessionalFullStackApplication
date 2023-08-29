@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-header-bar',
@@ -6,5 +7,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./header-bar.component.scss']
 })
 export class HeaderBarComponent {
+  items:  Array<MenuItem> = [
+    {
+      label: 'Profile',
+      icon: 'pi pi-user'
+    },
+    {
+      label: 'Settings',
+      icon: 'pi pi-cog'
+    },
+    {
+      separator: true
+    },
+    {
+      label: 'Sign Out',
+      icon: 'pi pi-sign-out'
+    }
+  ];
 
 }

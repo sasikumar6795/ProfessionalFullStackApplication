@@ -10,6 +10,7 @@ import java.security.Key;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 
 
@@ -21,6 +22,10 @@ public class JWTUtil {
 
     public String issueToken(String subject) {
         return issueToken(subject, Map.of());
+    }
+
+    public String issueToken(String subject, List<String> roles) {
+        return issueToken(subject, Map.of("scopes", roles));
     }
 
     public String issueToken(String subject, String ...scopes) {

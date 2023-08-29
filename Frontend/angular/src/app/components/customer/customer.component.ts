@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class CustomerComponent {
 
+  sidebarVisible: boolean = false;
+
+
+  openSideBar(): void {
+    this.sidebarVisible = true;
+  }
+
 }

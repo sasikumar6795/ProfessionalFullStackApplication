@@ -9,13 +9,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository("jdbc")
-@RequiredArgsConstructor
 @Slf4j
 public class CustomerJdbcTemplateAccessService implements CustomerDao{
 
     private final JdbcTemplate jdbcTemplate;
 
     private final CustomerRowMapper customerRowMapper;
+
+    public CustomerJdbcTemplateAccessService(JdbcTemplate jdbcTemplate, CustomerRowMapper customerRowMapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.customerRowMapper = customerRowMapper;
+    }
+
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """

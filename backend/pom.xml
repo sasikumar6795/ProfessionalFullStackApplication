@@ -21,7 +21,6 @@
 		<java.version>17</java.version>
 		<docker.username>sasikumar6795</docker.username>
 		<docker.image.name>sasicode-fullStack-professional-api</docker.image.name>
-		<docker.image.tag/>
 		<JJWT.VERSION>0.11.5</JJWT.VERSION>
 	</properties>
 	<dependencies>
@@ -219,7 +218,7 @@
 						</platforms>
 					</from>
 					<to>
-						<image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
+						<image>docker.io/${docker.username}/${docker.image.name}:v1</image>
 						<tags>
 							<tag>latest</tag>
 						</tags>

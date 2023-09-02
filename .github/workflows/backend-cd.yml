@@ -60,6 +60,11 @@ jobs:
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
 
+      - name: Load environment variables
+        run: |
+          echo "Loading environment variables from env.properties"
+          source env.properties
+
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 
@@ -67,7 +72,7 @@ jobs:
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Build Package Push with Maven
-        run: mvn -ntp -B verify -Ddocker.image.tag=${{env.BUILD_NUMBER}} jib:build
+        run: mvn -ntp -B verify -Ddocker.image.tag=${BUILD_NUMBER} jib:build
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 

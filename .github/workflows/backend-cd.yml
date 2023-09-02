@@ -60,11 +60,6 @@ jobs:
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
 
-      - name: Load environment variables
-        run: |
-          echo "Loading environment variables from env.properties"
-          source env.properties
-
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 

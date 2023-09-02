@@ -67,7 +67,7 @@ jobs:
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Build Package Push with Maven
-        run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.env.BUILD_NUMBER}} jib:build
+        run: mvn -ntp -B verify -Ddocker.image.tag=env.GITHUB_OUTPUT jib:build
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 

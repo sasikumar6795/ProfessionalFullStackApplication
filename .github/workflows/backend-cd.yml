@@ -61,17 +61,17 @@ jobs:
           --data '{"text":":maven: Building with Maven"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Build Package Push with Maven
-        run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
+        run: mvn -ntp -B verify -Ddocker.image.tag=latest jib:build
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":":docker: Image tag:${{steps.build-number.outputs.BUILD_NUMBER}} pushed to https://hub.docker.com/repository/docker/sasikumar6795/sasicode-fullstack-professional-api"}'
+          --data '{"text":":docker: Image tag:latest pushed to https://hub.docker.com/repository/docker/sasikumar6795/sasicode-fullstack-professional-api"}'
           ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Update Dockerrun.aws.json api image tag with new build number
         run: |
           echo "Dockerrun.aws.json before updating tag"
           cat Dockerrun.aws.json
-          sed -i -E 's_(amigoscode/amigoscode-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../Dockerrun.aws.json
+          sed -i -E 's_(sasikumar6795/sasicode-fullstack-professional-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat Dockerrun.aws.json
       - name: Send Slack Message

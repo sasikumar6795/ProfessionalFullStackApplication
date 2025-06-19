@@ -35,6 +35,7 @@ class CustomerServiceTest {
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
         underTest = new CustomerService(customerDao, passwordEncoder, customerDTOMapper);
+
     }
 
     @AfterEach

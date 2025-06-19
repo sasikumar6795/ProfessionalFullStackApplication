@@ -45,7 +45,7 @@ jobs:
       - name: Notify Slack (Complete)
         run: >
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text": "CI Integration completed for repo <https://github.com/***/ProfessionalFullStackApplication|***/ProfessionalFullStackApplication> on branch refs/pull/3/merge.\nStatus: success\nBuild number: ${{ github.run_number }}"}' \
+          --data '{"text": "CI Integration completed for repo <https://github.com/${{ github.repository }}|${{ github.repository }}> on branch ${{ github.ref }}.\nStatus: ${{ job.status }}\nBuild number: ${{ env.VERSION }}"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Send Slack Message
         if: always()

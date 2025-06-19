@@ -42,3 +42,14 @@ jobs:
           password: ${{secrets.DOCKERHUB_ACCESS_TOKEN}}
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
+      - name: Notify Slack (Complete)
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+            --data '{"text": "CI Integration completed for repo <https://github.com/${{ github.repository }}|${{ github.repository }}> on branch ${{ github.ref }}.\nStatus: ${{ job.status }}\nBuild number: ${{ env.VERSION }}"}'
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send Slack Message
+        if: always()
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Job Status ${{ job.status }}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}

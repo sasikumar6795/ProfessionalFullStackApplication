@@ -1,0 +1,39 @@
+name: CD
+
+on:
+  push:
+    branches: [ test ]
+  workflow_dispatch:
+
+env:
+  JAVA_VERSION: 11
+  VERSION: 1.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+
+      - name: Notify Slack (Complete)
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{\"text\": \"✅ Continuous deployment completed for repo <https://github.com/${{ github.repository }}|${{ github.repository }}> on branch ${{ github.ref }}.\nStatus: SUCCESS\nBuild version: $VERSION\"}" \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
+        env:
+          VERSION: ${{ env.VERSION }}
+
+      - name: Send Slack Message (Always Notify)
+        if: always()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{\"text\": \"🛠️ GitHub Actions job completed for *${{ github.repository }}* on *${{ github.ref }}*.\nStatus: ${{ job.status }}\"}" \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
